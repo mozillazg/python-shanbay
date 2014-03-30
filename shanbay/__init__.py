@@ -24,23 +24,9 @@ class AuthException(ShanbayException):
     pass
 
 
-class APIServerException(ShanbayException):
-    """扇贝网 API 服务出现异常情况"""
+class ServerException(ShanbayException):
+    """扇贝网服务出现异常情况"""
     pass
-
-
-def _api_wrapper(func):
-    @wraps(func)
-    def _wrapper(*args, **kwargs):
-        url, method, shanbay = func(*args, **kwargs)
-        r = shanbay._request(url, method, **kwargs)
-        if r.url.startswith('http://www.shanbay.com/accounts/login/'):
-            raise AuthException
-        try:
-            return r.json()
-        except:
-            raise APIServerException
-    return _wrapper
 
 
 class Shanbay(object):
@@ -60,7 +46,21 @@ class Shanbay(object):
         try:
             return getattr(self.request, method)(url, **kwargs)
         except requests.RequestException:
-            raise APIServerException
+            raise ServerException
+
+    def _response(self, url, method, mode='json', **kwargs):
+        r = self._request(url, method, **kwargs)
+        if r.url.startswith('http://www.shanbay.com/accounts/login/'):
+            raise AuthException
+        try:
+            if mode == 'json':
+                return r.json()
+            elif mode == 'text':
+                return r.text
+            else:
+                return r.content
+        except:
+            raise ServerException
 
     def login(self, **kwargs):
         url = 'http://www.shanbay.com/accounts/login/'
@@ -75,9 +75,7 @@ class Shanbay(object):
             'u': 1,
             'next': '',
         }
-        r = self._request(url, 'post', data=data)
-        if r.url.startswith('http://www.shanbay.com/accounts/login/'):
-            raise AuthException
+        self._response(url, 'post', mode='text', data=data)
 
     @property
     def api(self):
@@ -88,35 +86,29 @@ class API(object):
     def __init__(self, shanbay):
         self.shanbay = shanbay
 
-    @_api_wrapper
     def user_info(self, **kwargs):
         url = 'http://www.shanbay.com/api/user/info/'
-        return url, 'get', self.shanbay
+        return self.shanbay._response(url, 'get')
 
-    @_api_wrapper
     def query_word(self, word, **kwargs):
         url = 'http://www.shanbay.com/api/word/%s' % quote(word)
-        return url, 'get', self.shanbay
+        return self.shanbay._response(url, 'get')
 
-    @_api_wrapper
     def add_word(self, word, **kwargs):
         url = 'http://www.shanbay.com/api/learning/add/%s' % word
-        return url, 'get', self.shanbay
+        return self.shanbay._response(url, 'get')
 
-    @_api_wrapper
     def examples(self, learn_id, **kwargs):
         url = 'http://www.shanbay.com/api/learning/examples/%s'
         url = url % learn_id
-        return url, 'get', self.shanbay
+        return self.shanbay._response(url, 'get')
 
-    @_api_wrapper
     def add_example(self, learn_id, question, answer, **kwargs):
         url = 'http://www.shanbay.com/api/example/add/%s?sentence=%s&translation=%s'
         url = url % (learn_id, question, answer)
-        return url, 'get', self.shanbay
+        return self.shanbay._response(url, 'get')
 
-    @_api_wrapper
     def add_note(self, learn_id, note, **kwargs):
         url = 'http://www.shanbay.com/api/note/add/%s?note=%s'
         url = url % (learn_id, quote(note))
-        return url, 'get', self.shanbay
+        return self.shanbay._response(url, 'get')
