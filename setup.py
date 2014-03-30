@@ -19,8 +19,6 @@ if sys.argv[-1] == 'publish':
 
 requirements = [
     'requests>=2.0.1',
-    'beautifulsoup4',
-    'html5lib',
 ]
 packages = [
     'shanbay',

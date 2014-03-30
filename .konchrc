@@ -1,0 +1,9 @@
+# -*- coding: utf-8 -*-
+import konch
+import shanbay
+
+konch.config({
+    'context': {
+        'shanbay': shanbay
+    }
+})
