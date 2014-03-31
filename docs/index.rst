@@ -4,6 +4,10 @@ Welcome to python-shanbay's documentation!
 
 .. include:: ../README.rst
 
+
+.. include:: ../CHANGELOG.rst
+
+
 Indices and tables
 ------------------
 
