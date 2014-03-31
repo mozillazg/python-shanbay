@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from urllib2 import quote
+try:
+    from urllib import quote
+except ImportError:
+    from urllib.parse import quote
 
 
 class API(object):
