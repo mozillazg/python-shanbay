@@ -8,6 +8,8 @@ def test_login():
     s = Shanbay('root', 'root')
     s.login()
 
+
+def test_exception():
     try:
         Shanbay('rxxxoot', 'axxbcd').login()
     except AuthException:
@@ -21,3 +23,11 @@ def test_login():
         Shanbay('rooxxt', 'abcxx').login(proxies=proxies, timeout=3)
     except ServerException:
         pass
+
+    s = Shanbay('root', 'root')
+    try:
+        s._response('http://www.shanbay.com', 'get', mode='json')
+    except ServerException:
+        pass
+    s._response('http://www.shanbay.com', 'get', mode='text')
+    s._response('http://www.shanbay.com', 'get', mode='raw')
