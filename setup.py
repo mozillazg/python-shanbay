@@ -5,7 +5,7 @@ from codecs import open
 import sys
 import os
 
-__version__ = '0.1.0'
+__version__ = '0.1.1.dev'
 __author__ = 'mozillazg'
 __license__ = 'MIT'
 
@@ -20,6 +20,8 @@ if sys.argv[-1] == 'publish':
 
 requirements = [
     'requests>=2.0.1',
+    'beautifulsoup4',
+    'html5lib',
 ]
 packages = [
     'shanbay',
