@@ -11,7 +11,7 @@ python-shanbay
 * GitHub: https://github.com/mozillazg/python-shanbay
 * Free software: MIT license
 * PyPI: https://pypi.python.org/pypi/shanbay
-* Python version: 2.6, 2.7, pypy, 3.3
+* Python version: 2.6, 2.7, pypy, 3.3, 3.4
 
 
 Installation
