@@ -10,7 +10,7 @@ api = s.api
 
 
 def test_user_info():
-    assert api.user_info()['result'] == 1
+    assert api.user_info['result'] == 1
 
 
 def test_query_word():

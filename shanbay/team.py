@@ -24,11 +24,11 @@ class Team(object):
         self.team_id = self.get_url_id(team_url)
         self.dismiss_url = ('http://www.shanbay.com/team/show_dismiss/%s/'
                             % self.team_id)
-        self.forum_id = self.get_forum_id()
 
     def get_url_id(self, url):
         return re.findall(r'/(\d+)/?$', url)[0]
 
+    @property
     def info(self):
         """小组信息
 
@@ -101,21 +101,18 @@ class Team(object):
         r = self.request(url, 'post', data=data)
         return r.url == 'http://www.shanbay.com/referral/invite/?kind=team'
 
+    @property
     def members(self):
         """获取小组成员"""
-        max_page = self.max_page(self.dismiss_url)
         all_members = []
-        for page in range(1, max_page + 1):
-            url = '%s?page=%s' % (self.dismiss_url, page)
-            all_members.extend(self.single_page_members(url))
+        for page in range(1, self.max_page + 1):
+            all_members.extend(self.single_page_members(page))
         return all_members
 
-    def max_page(self, url):
-        """小组成员管理页面的最大页数
-
-        :param url: 小组成员管理页面 url
-        """
-        html = self.request(url, 'get').text
+    @property
+    def max_page(self):
+        """小组成员管理页面的最大页数"""
+        html = self.request(self.dismiss_url, 'get').text
         soup = BeautifulSoup(html)
         # 分页所在 div
         try:
@@ -125,13 +122,14 @@ class Team(object):
         pages = pagination.find_all('li')
         return int(pages[-2].text) if pages else 1
 
-    def single_page_members(self, dismiss_url):
+    def single_page_members(self, page_number=1):
         """获取单个页面内的小组成员
 
-        :param url: 小组成员管理页面 url
+        :param page_number: 页码
         :return: 包含小组成员信息的列表
         """
-        html = self.request(dismiss_url, 'get').text
+        url = '%s?page=%s' % (self.dismiss_url, page_number)
+        html = self.request(url, 'get').text
         soup = BeautifulSoup(html)
         members_html = soup.find(id='members')
         if not members_html:
@@ -186,11 +184,9 @@ class Team(object):
         })
         return self.request(url, 'get').ok
 
-    def get_forum_id(self):
-        """小组发帖要用的 forum_id
-
-        :return: forum_id
-        """
+    @property
+    def forum_id(self):
+        """小组发帖要用的 forum_id"""
         html = self.request(self.team_url, 'get').text
         soup = BeautifulSoup(html)
         return soup.find(id='forum_id').attrs['value']
