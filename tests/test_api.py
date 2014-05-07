@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-from shanbay import ShanbayException, AuthException, ServerException, Shanbay
+from shanbay import Shanbay
 
 s = Shanbay('root', 'root')
 s.login()
