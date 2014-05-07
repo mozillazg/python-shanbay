@@ -29,3 +29,12 @@ class Message(object):
         }
         response = self.request(url, 'post', data=data)
         return response.url == 'http://www.shanbay.com/message/'
+
+    def __call__(self, recipient_list, subject, body):
+        """发送站内消息
+
+        :param recipient_list: 收件人列表
+        :param subject: 标题
+        :param body: 内容（不能超过 1024 个字符）
+        """
+        return self.send_message(recipient_list, subject, body)
