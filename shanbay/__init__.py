@@ -58,10 +58,11 @@ class Shanbay(object):
             raise AuthException('Need login')
         return r
 
-    def login(self, **kwargs):
+    def login(self):
+        """登录"""
         url = 'http://www.shanbay.com/accounts/login/'
         try:
-            r = self._request.get(url, **kwargs)
+            r = self._request.get(url)
         except requests.exceptions.RequestException as e:
             raise ConnectException(e)
         token = r.cookies.get('csrftoken')
