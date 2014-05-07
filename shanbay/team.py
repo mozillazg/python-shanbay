@@ -48,7 +48,7 @@ class Team(object):
               'points': 23  # 总成长值
           }
         """
-        html = self.request(self.team_url, 'get').text
+        html = self.request(self.team_url).text
         soup = BeautifulSoup(html)
         team_header = soup.find_all(class_='team-header')[0]
 
@@ -112,7 +112,7 @@ class Team(object):
     @property
     def max_page(self):
         """小组成员管理页面的最大页数"""
-        html = self.request(self.dismiss_url, 'get').text
+        html = self.request(self.dismiss_url).text
         soup = BeautifulSoup(html)
         # 分页所在 div
         try:
@@ -129,7 +129,7 @@ class Team(object):
         :return: 包含小组成员信息的列表
         """
         url = '%s?page=%s' % (self.dismiss_url, page_number)
-        html = self.request(url, 'get').text
+        html = self.request(url).text
         soup = BeautifulSoup(html)
         members_html = soup.find(id='members')
         if not members_html:
@@ -182,12 +182,12 @@ class Team(object):
             'team_id': self.team_id,
             'dismiss_member_ids': member_id
         })
-        return self.request(url, 'get').ok
+        return self.request(url).ok
 
     @property
     def forum_id(self):
         """小组发帖要用的 forum_id"""
-        html = self.request(self.team_url, 'get').text
+        html = self.request(self.team_url).text
         soup = BeautifulSoup(html)
         return soup.find(id='forum_id').attrs['value']
 

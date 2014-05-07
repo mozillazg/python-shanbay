@@ -47,7 +47,7 @@ class Shanbay(object):
     def _attr(self, name):
         return getattr(self.__class__, name)
 
-    def request(self, url, method, **kwargs):
+    def request(self, url, method='get', **kwargs):
         headers = kwargs.setdefault('headers', {})
         headers.setdefault('User-Agent', self._attr('USER_AGENT'))
         try:
@@ -80,7 +80,8 @@ class Shanbay(object):
     @property
     def server_date_utc(self):
         """获取扇贝网服务器时间（UTC 时间）"""
-        date_str = self.request('http://www.shanbay.com', 'head').headers['date']
+        date_str = self.request('http://www.shanbay.com', 'head'
+                                ).headers['date']
         date_utc = datetime.datetime.strptime(date_str,
                                               '%a, %d %b %Y %H:%M:%S GMT')
         return date_utc
