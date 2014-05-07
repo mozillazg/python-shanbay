@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import, unicode_literals
+
 """Python API for shanbay.com"""
 
 __title__ = 'shanbay'
@@ -12,6 +14,7 @@ __copyright__ = 'Copyright (c) 2014 mozillazg'
 import requests
 
 from .api import API
+from .message import Message
 
 all = ['ShanbayException', 'AuthException', 'ServerException', 'Shanbay']
 
@@ -73,3 +76,7 @@ class Shanbay(object):
     @property
     def api(self):
         return API(self)
+
+    @property
+    def message(self):
+        return Message(self)

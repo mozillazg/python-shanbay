@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import, unicode_literals
 try:
     from urllib import quote
 except ImportError:
@@ -8,6 +9,7 @@ except ImportError:
 
 
 class API(object):
+    """API"""
     def __init__(self, shanbay):
         self.shanbay = shanbay
 
