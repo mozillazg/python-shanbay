@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+
+import pytest
+
 from shanbay import Shanbay
 
 s = Shanbay('root', 'root')
@@ -21,6 +24,7 @@ def test_add_word():
     assert 'id' in api.add_word('hello')
 
 
+@pytest.mark.skipif(s.username == 'root', reason='skip')
 def test_examples():
     learn_id = api.add_word('hello')['id']
     assert api.examples(learn_id)['examples_status'] != -1

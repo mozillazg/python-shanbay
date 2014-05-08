@@ -19,7 +19,7 @@ from .api import API
 from .message import Message
 from .team import Team
 
-all = ['ShanbayException', 'AuthException', 'ServerException', 'Shanbay']
+all = ['ShanbayException', 'AuthException', 'ConnectException', 'Shanbay']
 
 
 class ShanbayException(Exception):
@@ -89,7 +89,7 @@ class Shanbay(object):
     @property
     def server_date(self):
         """获取扇贝网服务器时间（北京时间）"""
-        date_utc = self.server_date_utc()
+        date_utc = self.server_date_utc
         # 北京时间 = UTC + 8 hours
         return date_utc + datetime.timedelta(hours=8)
 
