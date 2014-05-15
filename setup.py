@@ -5,7 +5,7 @@ from codecs import open
 import sys
 import os
 
-__version__ = '0.1.1.dev'
+__version__ = '0.1.1'
 __author__ = 'mozillazg'
 __license__ = 'MIT'
 
