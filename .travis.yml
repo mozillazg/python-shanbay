@@ -14,7 +14,7 @@ script:
   - "python setup.py test"
   - "python setup.py develop"
   - "pip install ."
-  - "py.test shanbay tests/"
+  # - "py.test shanbay tests/"
 
 notifications:
   email:
