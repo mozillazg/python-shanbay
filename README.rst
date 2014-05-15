@@ -14,6 +14,14 @@ python-shanbay
 * Python version: 2.6, 2.7, pypy, 3.3, 3.4
 
 
+Features
+--------
+
+* 扇贝网 API v0.8
+* send messages
+* manage team
+
+
 Installation
 ------------
 
