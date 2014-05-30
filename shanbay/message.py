@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import absolute_import, unicode_literals
+import re
 
 
 class Message(object):
@@ -29,6 +30,21 @@ class Message(object):
         }
         response = self.request(url, 'post', data=data)
         return response.url == 'http://www.shanbay.com/message/'
+
+    def reply_message(self, message_url, body):
+        """回复某条站内消息
+
+        :param message_url: 该条消息的页面 URL
+        :param body: 内容（不能超过 1024 个字符）
+        """
+        id = re.findall(r'(\d+)/?$', message_url)[0]
+        api = 'http://www.shanbay.com/api/v1/message/%s/reply/'
+        url = api % id
+        data = {
+            'body': body
+        }
+        response = self.request(url, 'post', data=data)
+        return response.json()['status_code'] == 0
 
     def __call__(self, recipient_list, subject, body):
         """发送站内消息
