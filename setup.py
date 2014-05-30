@@ -39,7 +39,7 @@ setup(
     description='Python wrapper for shanbay.com',
     long_description=long_description(),
     url='https://github.com/mozillazg/python-shanbay',
-    download_url='https://github.com/mozillazg/python-shanbay/archive/master.zip',
+    download_url='https://github.com/mozillazg/python-shanbay',
     author=__author__,
     author_email='mozillazg101@gmail.com',
     license=__license__,
