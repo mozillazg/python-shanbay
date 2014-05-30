@@ -5,7 +5,7 @@ from codecs import open
 import sys
 import os
 
-__version__ = '0.1.1.dev'
+__version__ = '0.1.1'
 __author__ = 'mozillazg'
 __license__ = 'MIT'
 
@@ -50,7 +50,7 @@ setup(
     install_requires=requirements,
     zip_safe=False,
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
