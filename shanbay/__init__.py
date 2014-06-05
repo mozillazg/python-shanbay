@@ -15,14 +15,15 @@ import datetime
 
 import requests
 
-from .api import API
 from .message import Message
 from .team import Team
 
-all = ['ShanbayException', 'AuthException', 'ConnectException', 'Shanbay']
+all = ['ShanbayException', 'AuthException', 'ConnectException',
+       'Shanbay', 'Message', 'Team']
 
 
 class ShanbayException(Exception):
+    """异常基类"""
     pass
 
 
@@ -77,7 +78,6 @@ class Shanbay(object):
         }
         self.request(url, 'post', data=data, **kwargs)
 
-    @property
     def server_date_utc(self):
         """获取扇贝网服务器时间（UTC 时间）"""
         date_str = self.request('http://www.shanbay.com', 'head'
@@ -86,23 +86,8 @@ class Shanbay(object):
                                               '%a, %d %b %Y %H:%M:%S GMT')
         return date_utc
 
-    @property
     def server_date(self):
         """获取扇贝网服务器时间（北京时间）"""
         date_utc = self.server_date_utc
         # 北京时间 = UTC + 8 hours
         return date_utc + datetime.timedelta(hours=8)
-
-    @property
-    def api(self):
-        """扇贝网提供的 API"""
-        return API(self)
-
-    @property
-    def message(self):
-        """站内消息相关 API"""
-        return Message(self)
-
-    def team(self, team_url):
-        """小组相关 api"""
-        return Team(self, team_url)

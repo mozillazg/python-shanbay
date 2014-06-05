@@ -17,6 +17,13 @@ class Team(object):
     """小组管理"""
 
     def __init__(self, shanbay, team_url):
+        """ ::
+
+            from shanbay import Shanbay, Team
+            s = Shanbay('username', 'password')
+            s.login()
+            t = Team(s, 'http://www.shanbay.com/team/1234/')
+        """
         self.shanbay = shanbay
         self._request = shanbay._request
         self.request = shanbay.request
@@ -35,9 +42,9 @@ class Team(object):
         :return: 小组信息
         :rtype: dict
 
-        返回值示例::
+        返回值示例 ::
 
-          return {
+          {
               'title': u'title',  # 标题
               'leader': u'leader',  # 组长
               'date_created': datetime.datetime(2013, 10, 6, 0, 0),  # 创建日期
@@ -101,17 +108,15 @@ class Team(object):
         r = self.request(url, 'post', data=data)
         return r.url == 'http://www.shanbay.com/referral/invite/?kind=team'
 
-    @property
     def members(self):
-        """获取小组成员"""
+        """获取小组成员信息列表"""
         all_members = []
-        for page in range(1, self.max_page + 1):
+        for page in range(1, self.max_page() + 1):
             all_members.extend(self.single_page_members(page))
         return all_members
 
-    @property
     def max_page(self):
-        """小组成员管理页面的最大页数"""
+        """获取小组成员管理页面的最大页数"""
         html = self.request(self.dismiss_url).text
         soup = BeautifulSoup(html)
         # 分页所在 div
@@ -184,7 +189,6 @@ class Team(object):
         })
         return self.request(url).ok
 
-    @property
     def forum_id(self):
         """小组发帖要用的 forum_id"""
         html = self.request(self.team_url).text
@@ -201,7 +205,7 @@ class Team(object):
             'body': content,
             'csrfmiddlewaretoken': self._request.cookies.get('csrftoken')
         }
-        url = 'http://www.shanbay.com/api/v1/forum/%s/thread/' % self.forum_id
+        url = 'http://www.shanbay.com/api/v1/forum/%s/thread/' % self.forum_id()
         r = self.request(url, 'post', data=data)
         j = r.json()
         if j['status_code'] == 0:
