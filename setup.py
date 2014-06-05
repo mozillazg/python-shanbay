@@ -27,11 +27,16 @@ packages = [
     'shanbay',
 ]
 
+current_dir = os.path.dirname(os.path.realpath(__file__))
+
+
+def read_f(name):
+    with open(os.path.join(current_dir, name), encoding='utf8') as f:
+        return f.read()
+
 
 def long_description():
-    readme = open('README.rst', encoding='utf8').read()
-    text = readme + '\n\n' + open('CHANGELOG.rst', encoding='utf8').read()
-    return text
+    return read_f('README.rst') + '\n\n' + read_f('CHANGELOG.rst')
 
 setup(
     name='shanbay',
