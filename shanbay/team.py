@@ -35,7 +35,6 @@ class Team(object):
     def get_url_id(self, url):
         return re.findall(r'/(\d+)/?$', url)[0]
 
-    @property
     def info(self):
         """小组信息
 

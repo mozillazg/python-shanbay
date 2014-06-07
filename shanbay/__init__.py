@@ -88,6 +88,6 @@ class Shanbay(object):
 
     def server_date(self):
         """获取扇贝网服务器时间（北京时间）"""
-        date_utc = self.server_date_utc
+        date_utc = self.server_date_utc()
         # 北京时间 = UTC + 8 hours
         return date_utc + datetime.timedelta(hours=8)
