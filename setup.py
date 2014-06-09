@@ -5,7 +5,7 @@ from codecs import open
 import sys
 import os
 
-__version__ = '0.1.1'
+__version__ = '0.2.0'
 __author__ = 'mozillazg'
 __license__ = 'MIT'
 
@@ -16,6 +16,7 @@ except ImportError:
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
+    os.system('python setup.py bdist_wheel upload')
     sys.exit()
 
 requirements = [
@@ -44,7 +45,7 @@ setup(
     description='Python wrapper for shanbay.com',
     long_description=long_description(),
     url='https://github.com/mozillazg/python-shanbay',
-    download_url='https://github.com/mozillazg/python-shanbay',
+    download_url='',
     author=__author__,
     author_email='mozillazg101@gmail.com',
     license=__license__,

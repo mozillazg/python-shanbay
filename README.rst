@@ -17,8 +17,7 @@ python-shanbay
 Features
 --------
 
-* 扇贝网 API v0.8
-* send messages
+* send/reply message
 * manage team
 
 
@@ -37,11 +36,12 @@ Basic Usage
 
 .. code-block:: python
 
-    >>> from shanbay import Shanbay
+    >>> from shanbay import Shanbay, Message
     >>> shanbay = Shanbay('username', 'password')
-    >>> api = shanbay.api
-    >>> api.user_info
-    {"username":"uesrname", "nickname":"nickname", "userid":1, "result":1} 
+    >>> shanbay.login()
+    >>> message = Message(shanbay)
+    >>> message.send_message(['mozillazg'], 'hello', 'hello')
+    True
 
 
 .. |Build| image:: https://api.travis-ci.org/mozillazg/python-shanbay.png?branch=master
