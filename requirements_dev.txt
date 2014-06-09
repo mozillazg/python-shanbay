@@ -1,2 +1,3 @@
 -r requirements.txt
 pytest
+wheel>=0.21
