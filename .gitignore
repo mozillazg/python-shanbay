@@ -38,3 +38,4 @@ htmlcov
 .mr.developer.cfg
 .project
 .pydevproject
+.konchrc

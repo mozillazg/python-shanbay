@@ -4,9 +4,9 @@ python:
   - "2.7"
   - "pypy"
   - "3.3"
+  - "3.4"
 
 install:
-  - "pip install coveralls"
   - "pip install -r requirements_dev.txt"
   - "pip install -e ."
 
@@ -14,10 +14,7 @@ script:
   - "python setup.py test"
   - "python setup.py develop"
   - "pip install ."
-  - "py.test --cov shanbay tests/"
-
-after_script:
-  - "coveralls"
+  # - "py.test shanbay tests/"
 
 notifications:
   email:

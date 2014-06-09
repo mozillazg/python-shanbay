@@ -1,22 +1,29 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import absolute_import, unicode_literals
+
 """Python API for shanbay.com"""
 
 __title__ = 'shanbay'
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 __author__ = 'mozillazg'
 __license__ = 'MIT'
 __copyright__ = 'Copyright (c) 2014 mozillazg'
 
+import datetime
+
 import requests
 
-from .api import API
+from .message import Message
+from .team import Team
 
-all = ['ShanbayException', 'AuthException', 'ServerException', 'Shanbay']
+all = ['ShanbayException', 'AuthException', 'ConnectException',
+       'Shanbay', 'Message', 'Team']
 
 
 class ShanbayException(Exception):
+    """异常基类"""
     pass
 
 
@@ -25,47 +32,50 @@ class AuthException(ShanbayException):
     pass
 
 
-class ServerException(ShanbayException):
-    """扇贝网服务出现异常情况"""
+class ConnectException(ShanbayException):
+    """网络连接出现异常情况"""
     pass
 
 
 class Shanbay(object):
+    """
+    :param username: 用户名
+    :param password: 密码
+
+    ::
+
+     >>> from shanbay import Shanbay
+     >>> s = Shanbay('username', 'password')
+     >>> s.login()
+    """
     USER_AGENT = 'python-shanbay/%s' % __version__
 
     def __init__(self, username, password):
-        self.request = requests.Session()
+        self._request = requests.Session()
         self.username = username
         self.password = password
 
     def _attr(self, name):
         return getattr(self.__class__, name)
 
-    def _request(self, url, method, **kwargs):
+    def request(self, url, method='get', **kwargs):
         headers = kwargs.setdefault('headers', {})
         headers.setdefault('User-Agent', self._attr('USER_AGENT'))
         try:
-            return getattr(self.request, method)(url, **kwargs)
-        except requests.RequestException:
-            raise ServerException
-
-    def _response(self, url, method, mode='json', **kwargs):
-        r = self._request(url, method, **kwargs)
+            r = getattr(self._request, method)(url, **kwargs)
+        except requests.exceptions.RequestException as e:
+            raise ConnectException(e)
         if r.url.startswith('http://www.shanbay.com/accounts/login/'):
-            raise AuthException
-        try:
-            if mode == 'json':
-                return r.json()
-            elif mode == 'text':
-                return r.text
-            else:
-                return r.content
-        except:
-            raise ServerException
+            raise AuthException('Need login')
+        return r
 
     def login(self, **kwargs):
+        """登录"""
         url = 'http://www.shanbay.com/accounts/login/'
-        r = self._request(url, 'get', **kwargs)
+        try:
+            r = self._request.get(url, **kwargs)
+        except requests.exceptions.RequestException as e:
+            raise ConnectException(e)
         token = r.cookies.get('csrftoken')
         data = {
             'csrfmiddlewaretoken': token,
@@ -76,8 +86,18 @@ class Shanbay(object):
             'u': 1,
             'next': '',
         }
-        self._response(url, 'post', mode='text', data=data)
+        self.request(url, 'post', data=data, **kwargs)
 
-    @property
-    def api(self):
-        return API(self)
+    def server_date_utc(self):
+        """获取扇贝网服务器时间（UTC 时间）"""
+        date_str = self.request('http://www.shanbay.com', 'head'
+                                ).headers['date']
+        date_utc = datetime.datetime.strptime(date_str,
+                                              '%a, %d %b %Y %H:%M:%S GMT')
+        return date_utc
+
+    def server_date(self):
+        """获取扇贝网服务器时间（北京时间）"""
+        date_utc = self.server_date_utc()
+        # 北京时间 = UTC + 8 hours
+        return date_utc + datetime.timedelta(hours=8)

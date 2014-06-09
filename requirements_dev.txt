@@ -1,4 +1,3 @@
 -r requirements.txt
 pytest
-konch
-pytest-cov
+wheel>=0.21

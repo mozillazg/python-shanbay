@@ -5,6 +5,23 @@ Welcome to python-shanbay's documentation!
 .. include:: ../README.rst
 
 
+API
+-----
+
+.. include:: ./shanbay.rst
+
+Message
++++++++
+
+.. include:: ./message.rst
+
+Team
++++++
+
+.. include:: ./team.rst
+
+
+
 .. include:: ../CHANGELOG.rst
 
 

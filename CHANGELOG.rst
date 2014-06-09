@@ -1,6 +1,26 @@
 Changelog
 =========
 
+
+0.2.0 (2014-06-09)
+-------------------
+
+- [delete] ``shanbay.API``, 因为扇贝网不再支持 API v0.8, 并且新的 API 尚未释出
+- [change] 各 api 接口移除 @property 装饰器
+
+
+0.1.1 (2014-05-15)
+------------------
+
+- [add] 站内消息 api
+- [add] 小组管理 api
+- [change] api 接口
+
+具体用法可以参考 tests/ 以及 python-shanbay-team-assistant_
+
+.. _python-shanbay-team-assistant:  https://github.com/mozillazg/python-shanbay-team-assistant/blob/develop/assistant.py
+
+
 0.1.0 (2014-03-31)
 ------------------
 
