@@ -1,11 +1,11 @@
-=========
-Shanbay
-=========
+
+.. module:: shanbay
 
 
-异常
-=====
+.. autoclass:: ShanbayException
+.. autoclass:: AuthException
+.. autoclass:: ConnectException
 
 
-Shanbay
-========
+.. autoclass:: Shanbay
+   :members: login, server_date, server_date_utc

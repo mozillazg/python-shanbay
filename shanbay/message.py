@@ -6,7 +6,17 @@ import re
 
 
 class Message(object):
-    """站内消息"""
+    """站内消息
+
+    :param shanbay: :class:`~shanbay.Shanbay` 实例对象
+
+    ::
+
+     >>> from shanbay import Shanbay, Message
+     >>> s = Shanbay('username', 'password')
+     >>> s.login()
+     >>> m = Message(s)
+    """
 
     def __init__(self, shanbay):
         """ ::

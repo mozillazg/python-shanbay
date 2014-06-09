@@ -14,16 +14,20 @@ from bs4 import BeautifulSoup
 
 
 class Team(object):
-    """小组管理"""
+    """小组管理
+
+    :param shanbay: :class:`~shanbay.Shanbay` 实例对象
+    :param team_url: 小组首页 URL
+
+    ::
+
+     >>> from shanbay import Shanbay, Team
+     >>> s = Shanbay('username', 'password')
+     >>> s.login()
+     >>> t = Team(s, 'http://www.shanbay.com/team/1234/')
+    """
 
     def __init__(self, shanbay, team_url):
-        """ ::
-
-            from shanbay import Shanbay, Team
-            s = Shanbay('username', 'password')
-            s.login()
-            t = Team(s, 'http://www.shanbay.com/team/1234/')
-        """
         self.shanbay = shanbay
         self._request = shanbay._request
         self.request = shanbay.request
@@ -108,7 +112,7 @@ class Team(object):
         return r.url == 'http://www.shanbay.com/referral/invite/?kind=team'
 
     def members(self):
-        """获取小组成员信息列表"""
+        """获取小组所有成员的信息列表"""
         all_members = []
         for page in range(1, self.max_page() + 1):
             all_members.extend(self.single_page_members(page))
@@ -127,10 +131,28 @@ class Team(object):
         return int(pages[-2].text) if pages else 1
 
     def single_page_members(self, page_number=1):
-        """获取单个页面内的小组成员
+        """获取单个页面内的小组成员信息
 
         :param page_number: 页码
         :return: 包含小组成员信息的列表
+
+        返回值示例: ::
+
+            [{
+                'id': 123,                  # member_id
+                'username': 'jim',          # username
+                'nickname': 'Jim',          # 昵称
+                'role': u'小组长',          # 身份
+                'points': 1234,             # 贡献成长值
+                'days': 100,                # 组龄
+                'rate': 99.9,               # 打卡率
+                'checked_yesterday': True,  # 昨天是否打卡
+                'checked': False,           # 今天是否打卡
+            }, {
+                # ...
+            }]
+
+
         """
         url = '%s?page=%s' % (self.dismiss_url, page_number)
         html = self.request(url).text
@@ -197,7 +219,7 @@ class Team(object):
     def new_topic(self, title, content):
         """小组发贴
 
-        :return: 帖子 id 或 ```None```
+        :return: 帖子 id 或 ``None``
         """
         data = {
             'title': title,
@@ -213,7 +235,7 @@ class Team(object):
     def reply_topic(self, topic_id, content):
         """小组回帖
 
-        :return: 帖子 id 或 ```None```
+        :return: 帖子 id 或 ``None``
         """
         data = {
             'body': content,
