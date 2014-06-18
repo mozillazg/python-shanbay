@@ -47,6 +47,7 @@ class Shanbay(object):
      >>> from shanbay import Shanbay
      >>> s = Shanbay('username', 'password')
      >>> s.login()
+     True
     """
     USER_AGENT = 'python-shanbay/%s' % __version__
 
@@ -86,7 +87,7 @@ class Shanbay(object):
             'u': 1,
             'next': '',
         }
-        self.request(url, 'post', data=data, **kwargs)
+        return self.request(url, 'post', data=data, **kwargs).ok
 
     def server_date_utc(self):
         """获取扇贝网服务器时间（UTC 时间）"""
