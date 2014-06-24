@@ -6,8 +6,9 @@ from __future__ import absolute_import, unicode_literals
 """Python API for shanbay.com"""
 
 __title__ = 'shanbay'
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 __author__ = 'mozillazg'
+__email__ = 'mozillazg101@gmail.com'
 __license__ = 'MIT'
 __copyright__ = 'Copyright (c) 2014 mozillazg'
 
@@ -47,6 +48,7 @@ class Shanbay(object):
      >>> from shanbay import Shanbay
      >>> s = Shanbay('username', 'password')
      >>> s.login()
+     True
     """
     USER_AGENT = 'python-shanbay/%s' % __version__
 
@@ -86,7 +88,7 @@ class Shanbay(object):
             'u': 1,
             'next': '',
         }
-        self.request(url, 'post', data=data, **kwargs)
+        return self.request(url, 'post', data=data, **kwargs).ok
 
     def server_date_utc(self):
         """获取扇贝网服务器时间（UTC 时间）"""

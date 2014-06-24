@@ -79,7 +79,7 @@ class Team(object):
         number, max_number = map(int, re.findall(r'(\d+)/(\d+)$', _str)[0])
         # 打卡率
         _str = team_stat.find_all(class_='rate')[0].text.strip()
-        rate = float(re.findall(r'(\d+\.?\d+)%$', _str)[0])
+        rate = float(re.findall(r'(\d+\.?(?:\d+)?)%$', _str)[0])
         # 总成长值
         _str = team_stat.find_all(class_='points')[0].text.strip()
         points = int(re.findall(r'\d+$', _str)[0])
