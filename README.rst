@@ -39,6 +39,7 @@ Basic Usage
     >>> from shanbay import Shanbay, Message
     >>> shanbay = Shanbay('username', 'password')
     >>> shanbay.login()
+    True
     >>> message = Message(shanbay)
     >>> message.send_message(['mozillazg'], 'hello', 'hello')
     True

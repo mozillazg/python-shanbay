@@ -2,12 +2,9 @@
 # -*- coding: utf-8 -*-
 
 from codecs import open
+import re
 import sys
 import os
-
-__version__ = '0.2.0'
-__author__ = 'mozillazg'
-__license__ = 'MIT'
 
 try:
     from setuptools import setup
@@ -39,16 +36,23 @@ def read_f(name):
 def long_description():
     return read_f('README.rst') + '\n\n' + read_f('CHANGELOG.rst')
 
+
+def meta_info(meta, filename='shanbay/__init__.py', default=''):
+    meta = re.escape(meta)
+    m = re.search(r"""%s\s+=\s+(?P<quote>['"])(?P<meta>.+?)(?P=quote)""" % meta,
+                  read_f(filename))
+    return m.group('meta') if m else default
+
 setup(
     name='shanbay',
-    version=__version__,
+    version=meta_info('__version__'),
     description='Python wrapper for shanbay.com',
     long_description=long_description(),
     url='https://github.com/mozillazg/python-shanbay',
     download_url='',
-    author=__author__,
-    author_email='mozillazg101@gmail.com',
-    license=__license__,
+    author=meta_info('__author__'),
+    author_email=meta_info('__email__'),
+    license=meta_info('__license__'),
     packages=packages,
     package_data={'': ['LICENSE']},
     package_dir={'shanbay': 'shanbay'},
