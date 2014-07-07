@@ -8,13 +8,10 @@ python:
 
 install:
   - "pip install -r requirements_dev.txt"
-  - "pip install -e ."
 
 script:
-  - "python setup.py test"
-  - "python setup.py develop"
-  - "pip install ."
-  # - "py.test shanbay tests/"
+  - "python setup.py install"
+  - "py.test"
 
 notifications:
   email:
