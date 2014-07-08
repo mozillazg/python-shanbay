@@ -4,8 +4,6 @@ from __future__ import absolute_import, unicode_literals
 import json
 import os
 
-import pytest
-
 from shanbay.api import API
 from shanbay import AuthException
 current_dir = os.path.dirname(__file__)
@@ -24,8 +22,8 @@ def test_exception():
 
 class TestAPI(object):
     # def __init__(self):   # 不能使用 __init__ 否则 py.test 会忽略这个类
-    @classmethod
-    @pytest.fixture(scope="class", autouse=True)
+    #     pass
+
     def setup(self):
         self.api = API('091e43d72fe4466a0433', token=token)
 
