@@ -6,7 +6,7 @@ from __future__ import absolute_import, unicode_literals
 """Python API for shanbay.com"""
 
 __title__ = 'shanbay'
-__version__ = '0.2.1'
+__version__ = '0.3.0'
 __author__ = 'mozillazg'
 __email__ = 'mozillazg101@gmail.com'
 __license__ = 'MIT'
@@ -16,26 +16,13 @@ import datetime
 
 import requests
 
+from .exceptions import ShanbayException, AuthException, ConnectException
 from .message import Message
 from .team import Team
+from .api import API
 
 all = ['ShanbayException', 'AuthException', 'ConnectException',
-       'Shanbay', 'Message', 'Team']
-
-
-class ShanbayException(Exception):
-    """异常基类"""
-    pass
-
-
-class AuthException(ShanbayException):
-    """未登录或登录已过期"""
-    pass
-
-
-class ConnectException(ShanbayException):
-    """网络连接出现异常情况"""
-    pass
+       'Shanbay', 'Message', 'Team', 'API']
 
 
 class Shanbay(object):

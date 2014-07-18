@@ -4,6 +4,7 @@ Changelog
 0.3.0 (2014-mm-dd)
 -------------------
 - 封装 `新版扇贝官方 API`__
+- 修复"扇贝更改小组成员页面的 URL 导致无法获取组员信息"
 
 __ http://www.shanbay.com/developer/wiki/api_v1/
 

@@ -8,7 +8,7 @@ import logging
 from oauthlib.oauth2 import FatalClientError, OAuth2Error, TokenExpiredError
 from requests_oauthlib import OAuth2Session, TokenUpdated
 
-from . import AuthException
+from .exceptions import AuthException
 
 logger = logging.getLogger(__name__)
 
