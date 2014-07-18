@@ -20,6 +20,7 @@ requirements = [
     'requests>=2.0.1',
     'beautifulsoup4',
     'html5lib',
+    'requests-oauthlib',
 ]
 packages = [
     'shanbay',
