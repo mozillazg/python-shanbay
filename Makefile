@@ -1,8 +1,8 @@
 help:
-	@echo " register         register to PyPI"
-	@echo " register_test    register to TestPyPI"
-	@echo " publish          publish to PyPI"
-	@echo " publish_test     publish to TestPyPI"
+	@echo "register         register to PyPI"
+	@echo "register_test    register to TestPyPI"
+	@echo "publish          publish to PyPI"
+	@echo "publish_test     publish to TestPyPI"
 
 publish:
 	@echo "publish to pypi"

@@ -33,8 +33,7 @@ class Team(object):
         self.request = shanbay.request
         self.team_url = team_url
         self.team_id = self.get_url_id(team_url)
-        self.dismiss_url = ('http://www.shanbay.com/team/show_dismiss/%s/'
-                            % self.team_id)
+        self.dismiss_url = 'http://www.shanbay.com/team/manage/'
 
     def get_url_id(self, url):
         return re.findall(r'/(\d+)/?$', url)[0]

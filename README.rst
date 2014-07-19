@@ -1,9 +1,9 @@
 python-shanbay
 ==============
 
-提供一系列操纵扇贝网 (www.shanbay.com) 的 api
+提供一系列操纵扇贝网 (www.shanbay.com) 的 API
 
-|Build| |Pypi version| |Pypi downloads|
+|Build| |PyPI version| |PyPI downloads|
 
 
 
@@ -19,6 +19,7 @@ Features
 
 * send/reply message
 * manage team
+* support shanbay api v1
 
 
 Installation
