@@ -18,3 +18,5 @@ register_test:
 publish_test:
 	python setup.py sdist upload -r test
 	python setup.py bdist_wheel upload -r test
+
+.PHONY: help publish publish_test register register_test

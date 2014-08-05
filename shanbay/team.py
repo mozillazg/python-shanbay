@@ -4,6 +4,7 @@
 from __future__ import absolute_import, unicode_literals
 
 import datetime
+import logging
 import re
 try:
     from urllib import urlencode
@@ -11,6 +12,8 @@ except ImportError:
     from urllib.parse import urlencode
 
 from bs4 import BeautifulSoup
+
+logger = logging.getLogger(__name__)
 
 
 class Team(object):
@@ -124,7 +127,8 @@ class Team(object):
         # 分页所在 div
         try:
             pagination = soup.find_all(class_='pagination')[0]
-        except IndexError:
+        except IndexError as e:
+            logger.exception(e)
             return 1
         pages = pagination.find_all('li')
         return int(pages[-2].text) if pages else 1
@@ -171,14 +175,28 @@ class Team(object):
                                               )[0].attrs['href']
             username = member_html.find_all('td', class_='user'
                                             )[0].find('img').attrs['alt']
+            try:
+                nickname = get_tag_string(member_html, 'nickname', 'a')
+            except Exception as e:
+                logger.exception(e)
+                nickname = username
+            try:
+                role = member_html.find_all('td', class_='user'
+                                            )[0].find_all('span', class_='label'
+                                                          )[0].get_text().strip()
+            except IndexError:
+                role = ''
+            except Exception as e:
+                logger.exception(e)
+                role = ''
 
             member = {
                 'id': int(self.get_url_id(member_url)),
                 'username': username,
                 # 昵称
-                'nickname': get_tag_string(member_html, 'nickname', 'a'),
+                'nickname': nickname,
                 # 身份
-                'role': get_tag_string(member_html, 'role'),
+                'role': role,
                 # 贡献成长值
                 'points': int(get_tag_string(member_html, 'points')),
                 # 组龄
