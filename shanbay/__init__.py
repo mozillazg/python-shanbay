@@ -6,7 +6,7 @@ from __future__ import absolute_import, unicode_literals
 """Python API for shanbay.com"""
 
 __title__ = 'shanbay'
-__version__ = '0.3.1'
+__version__ = '0.3.2'
 __author__ = 'mozillazg'
 __email__ = 'mozillazg101@gmail.com'
 __license__ = 'MIT'

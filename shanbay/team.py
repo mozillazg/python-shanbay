@@ -171,10 +171,13 @@ class Team(object):
         members = []
         # 获取成员信息
         for member_html in members_html.find_all('tr', class_='member'):
-            member_url = member_html.find_all('a', class_='nickname'
-                                              )[0].attrs['href']
-            username = member_html.find_all('td', class_='user'
-                                            )[0].find('img').attrs['alt']
+            _id = member_html.attrs['data-id']
+            try:
+                username = member_html.find_all('td', class_='user'
+                                                )[0].find('img').attrs['alt']
+            except Exception as e:
+                logger.exception(e)
+                username = ''
             try:
                 nickname = get_tag_string(member_html, 'nickname', 'a')
             except Exception as e:
@@ -191,7 +194,7 @@ class Team(object):
                 role = ''
 
             member = {
-                'id': int(self.get_url_id(member_url)),
+                'id': int(_id),
                 'username': username,
                 # 昵称
                 'nickname': nickname,
@@ -214,18 +217,21 @@ class Team(object):
             members.append(member)
         return members
 
-    def dismiss(self, member_id):
+    def dismiss(self, member_ids):
         """踢人. 注意别把自己给踢了.
 
-        :param member_id: 组员 id
+        :param member_ids: 组员 ids
         :return: bool
         """
-        url = 'http://www.shanbay.com/team/dismiss/?'
-        url += urlencode({
-            'team_id': self.team_id,
-            'dismiss_member_ids': member_id
-        })
-        return self.request(url).ok
+        url = 'http://www.shanbay.com/api/v1/team/member/'
+        data = {
+            'action': 'dismiss',
+        }
+        if isinstance(member_ids, (list, tuple)):
+            data['ids'] = ','.join(map(str, member_ids))
+        else:
+            data['ids'] = member_ids
+        return self.request(url, 'put', data=data).ok
 
     def forum_id(self):
         """小组发帖要用的 forum_id"""
