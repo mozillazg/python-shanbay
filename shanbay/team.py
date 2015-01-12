@@ -173,8 +173,10 @@ class Team(object):
         for member_html in members_html.find_all('tr', class_='member'):
             _id = member_html.attrs['data-id']
             try:
-                username = member_html.find_all('td', class_='user'
-                                                )[0].find('img').attrs['alt']
+                user_url = member_html.find_all('td', class_='user'
+                                                )[0].find('a').attrs['href']
+                username = self.get_username('http://www.shanbay.com'
+                                             + user_url)
             except Exception as e:
                 logger.exception(e)
                 username = ''
@@ -217,6 +219,12 @@ class Team(object):
             members.append(member)
         return members
 
+    def get_username(self, url):
+        html = self.request(url).text
+        soup = BeautifulSoup(html)
+        t = soup.find_all(class_='page-header')[0].find_all('h2')[0].text.strip()
+        return t.strip(u'的日记').strip()
+
     def dismiss(self, member_ids):
         """踢人. 注意别把自己给踢了.
 
@@ -225,13 +233,18 @@ class Team(object):
         """
         url = 'http://www.shanbay.com/api/v1/team/member/'
         data = {
-            'action': 'dismiss',
+            'action': 'dispel',
         }
         if isinstance(member_ids, (list, tuple)):
             data['ids'] = ','.join(map(str, member_ids))
         else:
             data['ids'] = member_ids
-        return self.request(url, 'put', data=data).ok
+        r = self.request(url, 'put', data=data)
+        try:
+            return r.json()['msg'] == "SUCCESS"
+        except Exception as e:
+            logger.exception(e)
+            return False
 
     def forum_id(self):
         """小组发帖要用的 forum_id"""
