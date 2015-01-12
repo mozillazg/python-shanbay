@@ -239,7 +239,12 @@ class Team(object):
             data['ids'] = ','.join(map(str, member_ids))
         else:
             data['ids'] = member_ids
-        return self.request(url, 'put', data=data).ok
+        r = self.request(url, 'put', data=data)
+        try:
+            return r.json()['msg'] == "SUCCESS"
+        except Exception as e:
+            logger.exception(e)
+            return False
 
     def forum_id(self):
         """小组发帖要用的 forum_id"""
