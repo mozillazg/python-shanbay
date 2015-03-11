@@ -8,8 +8,7 @@ from shanbay.api import API
 from shanbay import AuthException
 current_dir = os.path.dirname(__file__)
 
-with open(os.path.join(current_dir, 'token.json')) as f:
-    token = json.loads(f.read())
+token = json.loads(os.environ.get('SHANBAY_TOKEN'))
 
 
 def test_exception():

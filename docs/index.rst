@@ -10,6 +10,13 @@ API
 
 .. include:: ./shanbay.rst
 
+
+REST API
+++++++++++
+
+.. include:: ./api.rst
+
+
 Message
 +++++++
 
