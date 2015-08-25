@@ -37,7 +37,7 @@ class Message(object):
         :param subject: 标题
         :param body: 内容（不能超过 1024 个字符）
         """
-        url = 'http://www.shanbay.com/message/compose/'
+        url = 'http://www.shanbay.com/api/v1/message/'
         recipient = ','.join(recipient_list)
         data = {
             'recipient': recipient,
@@ -46,7 +46,7 @@ class Message(object):
             'csrfmiddlewaretoken': self._request.cookies.get('csrftoken')
         }
         response = self.request(url, 'post', data=data)
-        return response.url == 'http://www.shanbay.com/message/'
+        return response.ok
 
     def reply_message(self, message_url, body):
         """回复某条站内消息
