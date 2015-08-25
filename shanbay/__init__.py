@@ -6,7 +6,7 @@ from __future__ import absolute_import, unicode_literals
 """Python API for shanbay.com"""
 
 __title__ = 'shanbay'
-__version__ = '0.3.3'
+__version__ = '0.3.4'
 __author__ = 'mozillazg'
 __email__ = 'mozillazg101@gmail.com'
 __license__ = 'MIT'
@@ -16,10 +16,10 @@ import datetime
 
 import requests
 
-from .exceptions import ShanbayException, AuthException, ConnectException
-from .message import Message
-from .team import Team
-from .api import API
+from .exceptions import ShanbayException, AuthException, ConnectException  # noqa
+from .message import Message  # noqa
+from .team import Team  # noqa
+from .api import API  # noqa
 
 all = ['ShanbayException', 'AuthException', 'ConnectException',
        'Shanbay', 'Message', 'Team', 'API']
