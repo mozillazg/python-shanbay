@@ -8,7 +8,9 @@ from shanbay.api import API
 from shanbay import AuthException
 current_dir = os.path.dirname(__file__)
 
+client_id = os.environ.get('SHANBAY_CLIENT_ID', '091e43d72fe4466a0433')
 token = json.loads(os.environ.get('SHANBAY_TOKEN'))
+username = os.environ.get('SHANBAY_USERNAME', 'mozillazg')
 
 
 def test_exception():
@@ -24,10 +26,10 @@ class TestAPI(object):
     #     pass
 
     def setup(self):
-        self.api = API('091e43d72fe4466a0433', token=token)
+        self.api = API(client_id, token=token)
 
     def test_user(self):
-        assert self.api.user()['username'] == 'mozillazg'
+        assert self.api.user()['username'] == username
 
     def test_word(self):
         assert self.api.word('hello')['data']['id']
