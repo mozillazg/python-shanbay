@@ -40,8 +40,8 @@ def long_description():
 
 def meta_info(meta, filename='shanbay/__init__.py', default=''):
     meta = re.escape(meta)
-    m = re.search(r"""%s\s+=\s+(?P<quote>['"])(?P<meta>.+?)(?P=quote)""" % meta,
-                  read_f(filename))
+    m = re.search(r"""%s\s+=\s+(?P<quote>['"])(?P<meta>.+?)(?P=quote)"""
+                  % meta, read_f(filename))
     return m.group('meta') if m else default
 
 setup(
@@ -72,6 +72,7 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Utilities',
     ],
     keywords='shanbay, 扇贝网',
