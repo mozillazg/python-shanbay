@@ -21,8 +21,8 @@ from .message import Message  # noqa
 from .team import Team  # noqa
 from .api import API  # noqa
 
-all = ['ShanbayException', 'AuthException', 'ConnectException',
-       'Shanbay', 'Message', 'Team', 'API']
+__all__ = ['ShanbayException', 'AuthException', 'ConnectException',
+           'Shanbay', 'Message', 'Team', 'API']
 
 
 class Shanbay(object):
