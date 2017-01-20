@@ -46,7 +46,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'python-shanbay'
-copyright = '2014, mozillazg'
+copyright = '2016, mozillazg'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -259,7 +259,7 @@ texinfo_documents = [
 epub_title = 'python-pinyin'
 epub_author = 'mozillazg'
 epub_publisher = 'mozillazg'
-epub_copyright = '2014, mozillazg'
+epub_copyright = '2016, mozillazg'
 
 # The language of the text. It defaults to the language option
 # or en if the language is not set.

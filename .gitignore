@@ -39,3 +39,4 @@ htmlcov
 .project
 .pydevproject
 .konchrc
+venv/

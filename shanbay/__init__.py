@@ -1,16 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 from __future__ import absolute_import, unicode_literals
 
 """Python API for shanbay.com"""
-
-__title__ = 'shanbay'
-__version__ = '0.3.4'
-__author__ = 'mozillazg'
-__email__ = 'mozillazg101@gmail.com'
-__license__ = 'MIT'
-__copyright__ = 'Copyright (c) 2014 mozillazg'
 
 import datetime
 
@@ -21,8 +13,15 @@ from .message import Message  # noqa
 from .team import Team  # noqa
 from .api import API  # noqa
 
-all = ['ShanbayException', 'AuthException', 'ConnectException',
-       'Shanbay', 'Message', 'Team', 'API']
+__title__ = 'shanbay'
+__version__ = '0.3.4'
+__author__ = 'mozillazg'
+__email__ = 'mozillazg101@gmail.com'
+__license__ = 'MIT'
+__copyright__ = 'Copyright (c) 2016 mozillazg'
+
+__all__ = ['ShanbayException', 'AuthException', 'ConnectException',
+           'Shanbay', 'Message', 'Team', 'API']
 
 
 class Shanbay(object):
@@ -43,6 +42,7 @@ class Shanbay(object):
         self._request = requests.Session()
         self.username = username
         self.password = password
+        self.csrftoken = ''
 
     def _attr(self, name):
         return getattr(self.__class__, name)
@@ -50,32 +50,36 @@ class Shanbay(object):
     def request(self, url, method='get', **kwargs):
         headers = kwargs.setdefault('headers', {})
         headers.setdefault('User-Agent', self._attr('USER_AGENT'))
+        headers.setdefault('X-CSRFToken', self.csrftoken)
+        headers.setdefault('X-Requested-With', 'XMLHttpRequest')
         try:
             r = getattr(self._request, method)(url, **kwargs)
         except requests.exceptions.RequestException as e:
             raise ConnectException(e)
-        if r.url.startswith('http://www.shanbay.com/accounts/login/'):
+        self.csrftoken = r.cookies.get('csrftoken', '')
+
+        content_type = r.headers.get('Content-Type', '')
+        if r.url.endswith('/accounts/login/') or \
+            (content_type.startswith('application/json') and
+                r.json()['status_code'] == 401):
             raise AuthException('Need login')
         return r
 
     def login(self, **kwargs):
         """登录"""
-        url = 'http://www.shanbay.com/accounts/login/'
-        try:
-            r = self._request.get(url, **kwargs)
-        except requests.exceptions.RequestException as e:
-            raise ConnectException(e)
-        token = r.cookies.get('csrftoken')
-        data = {
-            'csrfmiddlewaretoken': token,
+        payload = {
             'username': self.username,
             'password': self.password,
-            'login': '',
-            'continue': 'home',
-            'u': 1,
-            'next': '',
         }
-        return self.request(url, 'post', data=data, **kwargs).ok
+        headers = kwargs.setdefault('headers', {})
+        headers.setdefault(
+            'Referer',
+            'https://www.shanbay.com/web/account/login'
+        )
+        url = 'https://www.shanbay.com/api/v1/account/login/web/'
+        response = self.request(url, 'put', json=payload, **kwargs)
+        r_json = response.json()
+        return r_json['status_code'] == 0
 
     def server_date_utc(self):
         """获取扇贝网服务器时间（UTC 时间）"""
