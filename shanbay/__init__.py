@@ -14,7 +14,7 @@ from .team import Team  # noqa
 from .api import API  # noqa
 
 __title__ = 'shanbay'
-__version__ = '0.3.4'
+__version__ = '0.3.5'
 __author__ = 'mozillazg'
 __email__ = 'mozillazg101@gmail.com'
 __license__ = 'MIT'
