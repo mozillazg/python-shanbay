@@ -1,7 +1,7 @@
 python-shanbay
 ==============
 
-提供一系列操纵扇贝网 (www.shanbay.com) 的 API
+提供一系列操纵扇贝网 (www.shanbay.com) 的 API 。
 
 |Build| |PyPI version|
 
@@ -68,6 +68,14 @@ __ https://gist.github.com/mozillazg/4af649ff88612b2de7c7
     >>> message = Message(shanbay)
     >>> message.send_message(['mozillazg'], 'hello', 'hello')
     True
+
+
+使用案例
+----------
+
+已知以下项目使用了本模块, 欢迎添加你的项目 ;)
+
+* `python-shanbay-team-assistant <https://github.com/mozillazg/python-shanbay-team-assistant>`__
 
 
 .. |Build| image:: https://api.travis-ci.org/mozillazg/python-shanbay.png?branch=master
