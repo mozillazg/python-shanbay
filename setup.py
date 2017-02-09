@@ -17,7 +17,7 @@ if sys.argv[-1] == 'publish':
     sys.exit()
 
 requirements = [
-    'requests>=2.0.1',
+    'requests>=2.9.0',
     'beautifulsoup4',
     'html5lib',
     'requests-oauthlib',
